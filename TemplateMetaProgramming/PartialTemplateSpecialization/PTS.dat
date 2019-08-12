@@ -1,0 +1,12 @@
+
+  Demonstrating no, partial, and full specialization 
+ ====================================================
+
+  unspecialized: _t's value is: a
+  unspecialized: _t's value is: 1
+    specialized: _d's value is: 2.2222
+
+          Unspecialized: _t's value is: b, _u's value is: 2
+  partially specialized: _i's value is: 3, _u's value is: 3
+    totally specialized: _i's value is: 4, _d's value is: 3.14159
+

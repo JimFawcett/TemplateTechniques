@@ -1,0 +1,16 @@
+
+  Demonstrating Queue Server holding Static Queue 
+ =================================================
+  
+  1.00 : Q size = 5
+  1.50 : Q size = 4
+  2.00 : Q size = 3
+  2.50 : Q size = 2
+  3.00 : Q size = 1
+  3.50 : Q size = 0
+
+
+  -2.50 : Q size = 2
+  -3.00 : Q size = 1
+  -3.50 : Q size = 0
+

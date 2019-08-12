@@ -1,0 +1,15 @@
+
+  Demonstrating Template Specialization 
+ =======================================
+
+  -- not using specialization
+  the maximum of 1 and 2 is 2
+
+
+  -- not using specialization
+  the maximum of 0.75 and 0.5e+10 is 5e+009
+
+
+  -- using specialization
+  the maximum of "z string" and "a string" is "z string"
+

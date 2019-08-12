@@ -1,0 +1,7 @@
+
+  binary<1>::value = 1
+  binary<11>::value = 3
+  binary<110>::value = 6
+  binary<1101>::value = 13
+  binary<11010>::value = 26
+

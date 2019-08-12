@@ -1,0 +1,244 @@
+#ifndef STACK_H
+#define STACK_H
+///////////////////////////////////////////////////////////////////////
+// stack class derived from Effective C++, Scott Meyers              //
+//                                                                   //
+// Note: inclusion model for templates requires all template         //
+//       implementations be placed in header file.                   //
+//                                                                   //
+// Jim Fawcett, CSE687 - Object Oriented Design, Spring 2004         //
+///////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////
+// template class 
+
+template<class T> class stack {
+
+  template <class U> friend class stack;
+
+  private:
+    struct stacknode {
+      T data;
+      stacknode *next;
+      stacknode(const T& newdata, stacknode *nextnode)
+	       : data(newdata), next(nextnode) { }
+    };
+    stacknode *top;
+  public:
+    stack();
+    ~stack();
+    void push(const T& object);
+    T pop(void);
+    void flush();
+    int size() const;
+    
+    // member templates
+
+    template <class U> stack(const stack<U>&);
+    template <class U> stack<T>& operator=(const stack<U>&);
+};
+
+//
+//----< void constructor >---------------------------------------------
+
+template<class T> stack<T>::stack() : top(0) { }
+
+//----< destructor >---------------------------------------------------
+
+template <class T> stack<T>::~stack(void) {
+
+  while (top) {
+    stacknode *next_to_die = top;
+    top = top->next;
+    delete next_to_die;
+  }
+}
+//----< push data onto stack >-----------------------------------------
+
+template<class T> void stack<T>::push(const T &object) {
+  top = new stacknode(object, top);
+}
+//----< pop data from stack >------------------------------------------
+
+template <class T> T stack<T>::pop(void) {
+
+  if (!top) {
+    throw std::out_of_range("\n  attempt to pop empty stack\n");
+  }
+  stacknode *save = top;
+  top = top->next;
+  T data = save->data;
+  delete save;
+  return data;
+}
+//----< empty stack >--------------------------------------------------
+
+template <class T> void stack<T>::flush()
+{
+  stacknode* node = top;
+  while(node)
+  {
+    stacknode *next_to_die = node;
+    node = node->next;
+    delete next_to_die;
+  }
+}
+//----< return number of elements on stack >---------------------------
+
+template <class T> int stack<T>::size() const
+{
+  stacknode* node = top;
+  int count = 0;
+  while(node)
+  {
+    count++;
+    node = node->next;
+  }
+  return count;
+}
+//
+//----< copy and promotion constructor, a member template >------------
+
+template <class T> 
+template <class U> stack<T>::stack(const stack<U>& s) : top(0)
+{
+  stack<U>::stacknode* node = const_cast<stack<U>::stacknode*>(s.top);
+  while(node)
+  {
+    this->push(node->data);
+    node = node->next;
+  }
+}
+//----< assignment from stack of possibly a compatible type >----------
+
+template <class T> 
+template <class U> stack<T>& stack<T>::operator=(const stack<U>& s)
+{
+  if((void*)this == (void*)&s)
+    return *this;
+
+  flush();
+  stack<U>::stacknode* node2 = const_cast<stack<U>::stacknode*>(s.top);
+  while(node2)
+  {
+    this->push(static_cast<T>(node2->data));
+    node2 = node2->next;
+  }
+  return *this;
+}
+#endif
+// stack.cpp
+
+#include <iostream>
+#include "stack.h"
+using namespace std;
+
+template <class T> void print_field(T t) {  // template function
+
+  cout.width(10);
+  cout << t;
+}
+
+void main() {
+
+  cout << "\nTesting Template Based Stack Class\n";
+
+  try
+  {
+    stack<int>    int_stack;
+    stack<double> double_stack;
+
+    int    x=1,    y=2,   z=3;
+    double u=-1.5, v=0.5, w=2.5;
+
+    cout << "\n  pushing stack: "; print_field(x); int_stack.push(x);
+    cout << "\n  pushing stack: "; print_field(y); int_stack.push(y);
+    cout << "\n  pushing stack: "; print_field(z); int_stack.push(z);
+    cout << endl;
+    cout << "\n  stack size = " << int_stack.size() << endl;
+
+    stack<double> copyStack = int_stack;  // copy construction
+                                          //   with data conversion
+
+    cout << "\n  popping stack: "; print_field(int_stack.pop());
+    cout << "\n  popping stack: "; print_field(int_stack.pop());
+    cout << "\n  popping stack: "; print_field(int_stack.pop());
+    cout << "\n";
+
+    cout << "\n  stack size = " << int_stack.size() << endl;
+
+    cout << "\n  popping double copy of int stack:";
+    cout << "\n  popping stack: "; print_field(copyStack.pop());
+    cout << "\n  popping stack: "; print_field(copyStack.pop());
+    cout << "\n  popping stack: "; print_field(copyStack.pop());
+    cout << "\n";
+
+    cout << "\n  pushing stack: "; print_field(u); double_stack.push(u);
+    cout << "\n  pushing stack: "; print_field(v); double_stack.push(v);
+    cout << "\n  pushing stack: "; print_field(w); double_stack.push(w);
+    cout << endl;
+
+//
+    stack<int> int2_stack;
+    int2_stack = double_stack;  // assignment with data conversion
+
+    cout << "\n  popping stack: "; print_field(double_stack.pop());
+    cout << "\n  popping stack: "; print_field(double_stack.pop());
+    cout << "\n  popping stack: "; print_field(double_stack.pop());
+    cout << "\n";
+
+    cout << "\n  popping int copy of double stack:";
+    cout << "\n  popping stack: "; print_field(int2_stack.pop());
+    cout << "\n  popping stack: "; print_field(int2_stack.pop());
+    cout << "\n  popping stack: "; print_field(int2_stack.pop());
+    cout << "\n";
+
+    int2_stack.pop(); // popping empty stack
+
+    cout << "\n\n";
+  }
+  catch(exception& ex)
+  {
+    cout << "\n  " << ex.what() << endl;
+  }
+  catch(...)
+  {
+    cout << "\n  stack error\n\n";
+  }
+}
+
+Testing Template Based Stack Class
+
+  pushing stack:          1
+  pushing stack:          2
+  pushing stack:          3
+
+  stack size = 3
+
+  popping stack:          3
+  popping stack:          2
+  popping stack:          1
+
+  stack size = 0
+
+  popping double copy of int stack:
+  popping stack:          1
+  popping stack:          2
+  popping stack:          3
+
+  pushing stack:       -1.5
+  pushing stack:        0.5
+  pushing stack:        2.5
+
+  popping stack:        2.5
+  popping stack:        0.5
+  popping stack:       -1.5
+
+  popping int copy of double stack:
+  popping stack:         -1
+  popping stack:          0
+  popping stack:          2
+
+  
+  attempt to pop empty stack
+

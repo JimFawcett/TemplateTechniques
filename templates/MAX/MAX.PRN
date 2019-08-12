@@ -1,0 +1,81 @@
+#ifndef MAX_H
+#define MAX_H
+/////////////////////////////////////////////////////////////////////
+// max.h - return maximum of two arguments                         //
+//                                                                 //
+// Jim Fawcett, CSE687 - Object Oriented Design, Spring 2004       //
+/////////////////////////////////////////////////////////////////////
+
+#include <iostream>
+using namespace std;
+
+template<class T> T max(const T& t1, const T& t2)
+{
+  cout << "\n  -- not using specialization";
+  return ((t2 > t1) ? t2 : t1);
+}
+
+//----< specialization of max template >-----------------------------
+//
+//  Since this function has no template parameters it could be
+//  placed in the max.cpp file.  In that case, users would add
+//  the max.cpp file to their project.  Since we are inlining
+//  the function, users need only include the header file.
+//
+//  Note that modern C++ syntax perfers template<>, although
+//  it may be replaced with inline.
+
+typedef char* pChar;  // typedef is required
+
+template<> pChar max(const pChar& t1, const pChar& t2)
+{
+  cout << "\n  -- using specialization";
+  return ((strcmp(t1,t2)>0) ? t1 : t2);
+}
+
+#endif
+/////////////////////////////////////////////////////////////////////
+// max.cpp - return maximum of two arguments                       //
+//                                                                 //
+// Jim Fawcett, CSE687 - Object Oriented Design, Spring 2004       //
+/////////////////////////////////////////////////////////////////////
+
+#include <iostream>
+#include "max.h"
+using namespace std;
+
+#ifdef TEST_MAX
+
+void main() {
+
+  cout << "\n  Demonstrating Template Specialization "
+       << "\n =======================================\n";
+
+  cout << "\n  the maximum of 1 and 2 is " << ::max(1,2) << "\n\n";
+
+  cout << "\n  the maximum of 0.75 and 0.5e+10 is "
+       << ::max(0.75,0.5e+10) << "\n\n";
+
+  char *s = "a string";
+  char *t = "z string";
+
+  cout << "\n  the maximum of \"z string\" and \"a string\" is \""
+    << ::max(t,s) << "\"\n\n";
+
+}
+#endif
+
+  Demonstrating Template Specialization 
+ =======================================
+
+  -- not using specialization
+  the maximum of 1 and 2 is 2
+
+
+  -- not using specialization
+  the maximum of 0.75 and 0.5e+10 is 5e+009
+
+
+  -- using specialization
+  the maximum of "z string" and "a string" is "z string"
+

@@ -1,0 +1,15 @@
+
+  Demonstrating Template-based Delegates
+ ========================================
+
+  received 3 from invoker
+  received -3 from invoker
+
+  1st arg = -3
+  2nd arg = 3.14159
+  1st arg = 3
+  2nd arg = 0.333333
+
+  X::fun returns 6
+  X::fun returns 34
+

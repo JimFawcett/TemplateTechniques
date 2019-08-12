@@ -1,0 +1,13 @@
+
+  int is not a char
+  charType is a char
+  X[3] is an array
+  X* is not an array
+  X is not a pointer
+  X* is a pointer
+  const X* is a pointer
+  volatile X* is a pointer
+  X* is not a pointer to member
+  Y X::* is a pointer to member
+  X& (X::*)(const X&) is a pointer to member
+

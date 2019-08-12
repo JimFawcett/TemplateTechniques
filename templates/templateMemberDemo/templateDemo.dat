@@ -1,0 +1,15 @@
+
+  Template Class and Template Member Demo 
+ =========================================
+
+  template parameter value = 3.14159
+  base class classTemp<T>
+
+  template parameter value = -15
+  derived class modifiedClassTemp<T>
+
+
+  memberTemplate: value of template parameter = 3.14159
+
+  modifiedMemberTemplate: value of template parameter = -15
+

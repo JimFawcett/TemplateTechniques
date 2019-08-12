@@ -1,0 +1,25 @@
+Demonstrating Template Function - swap(T& t1, T& t2)
+====================================================
+
+before swapping integers:
+  x is 1
+  y is 2
+after swapping integers:
+  x now is 2
+  y now is 1
+
+before swapping doubles:
+  u is 1.5
+  v is 2.5
+after swapping doubles:
+  u now is 2.5
+  v now is 1.5
+
+before swapping C strings:
+  s = "a string"
+  t = "more string"
+
+after swapping C strings:
+  s = "more string"
+  t = "a string"
+

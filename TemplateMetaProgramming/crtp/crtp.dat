@@ -1,0 +1,19 @@
+
+  Demonstrating Curiously Recurring Template Pattern
+ ====================================================
+
+  constructing instance of algorithmWithSteps
+  constructing instance of modifiedAlgorithm
+
+  performing base step1()
+
+  performing base step2()
+
+  performing derived step3()
+
+  performing base step4()
+
+  constructing instance of algorithmWithSteps
+  constructing instance of modifiedAlgorithm
+
+

@@ -1,0 +1,36 @@
+
+Testing Template Based Stack Class
+
+  pushing stack:          1
+  pushing stack:          2
+  pushing stack:          3
+
+  stack size = 3
+
+  popping stack:          3
+  popping stack:          2
+  popping stack:          1
+
+  stack size = 0
+
+  popping double copy of int stack:
+  popping stack:          1
+  popping stack:          2
+  popping stack:          3
+
+  pushing stack:       -1.5
+  pushing stack:        0.5
+  pushing stack:        2.5
+
+  popping stack:        2.5
+  popping stack:        0.5
+  popping stack:       -1.5
+
+  popping int copy of double stack:
+  popping stack:         -1
+  popping stack:          0
+  popping stack:          2
+
+  
+  attempt to pop empty stack
+

@@ -1,0 +1,106 @@
+/////////////////////////////////////////////////////////////////////
+// looping.cpp - Compile-time pseudo-iteration via recursion       //
+//                                                                 //
+// Jim Fawcett, CSE687 - Object Oriented Design, Spring 2004       //
+/////////////////////////////////////////////////////////////////////
+
+#include <iostream>
+
+/////////////////////////////////////////////////////////////////////
+// simple loop
+
+template <int i>
+class LOOP
+{
+public:
+  static inline void EXEC()
+  {
+    std::cout << i << " ";
+    LOOP<i-1>::EXEC();
+  }
+};
+
+template <>
+class LOOP<0>
+{
+public:
+  static inline void EXEC()
+  {
+    std::cout << 0;
+  }
+};
+
+/////////////////////////////////////////////////////////////////////
+// FOR loop evaluates static function body(int i)
+
+template <int n, class B>
+struct FOR
+{
+  static void iteration(int i)
+  {
+    B::body(i);
+    FOR<n-1,B>::iteration(i+1);
+  }
+};
+
+template <class B>
+struct FOR<0,B>
+{
+  static void iteration(int i) {}
+};
+  
+class B
+{ 
+public: 
+  static void body(int i) 
+  { 
+    std::cout << i << " "; 
+  } 
+};
+//
+/////////////////////////////////////////////////////////////////////
+// accumulation
+
+template <int n, template <int> class F>
+struct ACCUMULATE
+{
+  enum { value = ACCUMULATE<n-1,F>::value + F<n>::value };
+};
+
+template <template<int> class F> 
+struct ACCUMULATE<0,F>
+{
+  enum { value = F<0>::value };
+};
+
+template<int n> struct IDENTITY { enum { value = n }; };
+
+template<int n> struct SQUARE { enum { value = n*n }; };
+
+/////////////////////////////////////////////////////////////////////
+// Demonstrations
+
+void main()
+{
+  std::cout << "\n  ";
+  LOOP<4>::EXEC(); 
+
+  std::cout << "\n\n  ";
+  FOR<10,B>::iteration(0);
+
+  std::cout << std::endl;
+  std::cout << "\n  " << ACCUMULATE<4,IDENTITY>::value;   // 1 + 2 + 3 + 4  = 10
+  std::cout << "\n  " << ACCUMULATE<4,SQUARE>::value;     // 1 + 4 + 9 + 16 = 30
+
+  std::cout << "\n\n";
+}
+
+
+
+  4 3 2 1 0
+
+  0 1 2 3 4 5 6 7 8 9 
+
+  10
+  30
+

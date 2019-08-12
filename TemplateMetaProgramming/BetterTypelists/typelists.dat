@@ -1,0 +1,48 @@
+
+  Demonstrating Better TypeLists 
+ ================================
+
+  1, a, 3.5, "a string"
+
+  Length of tl4a is: 4
+  Length of tl4b is: 3
+  Length of tl4c is: 2
+  Length of tl4d is: 1
+  Length of tl4e is: 0
+
+  Making a TypeList the Easy Way 
+ --------------------------------
+
+  Type list tlf:
+  int, char, double, class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >
+
+  Length of tlf is: 4
+
+  Demonstrate indexing and searching in TypeList 
+ ------------------------------------------------
+
+  Type list tl4a:
+  int, char, double, class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >
+
+  type at index 1 in tl4a is: char
+
+  index of double type in tl4a is: 2
+
+  index of long type in tl4a is: -1
+
+  Demonstrate Appending to TypeList 
+ -----------------------------------
+
+  appending long to tl4a:
+
+  index of long type in tl5 is: 4
+
+  Demonstrating TypeList Replacement 
+ ------------------------------------
+
+  replacing double in tl4a with short:
+
+  index of short type in tl6 is: 2
+
+  index of double type in tl6 is: -1
+
