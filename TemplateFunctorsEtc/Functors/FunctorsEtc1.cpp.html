@@ -1,0 +1,101 @@
+<pre>/////////////////////////////////////////////////////////////////////////
+// FunctorsEtc.cpp - Demonstrate Functors and Function Pointers with   //
+//                   template arguments                                //
+//                                                                     //
+// Jim Fawcett, CSE67 - Object Oriented Design, Spring 2009            //
+/////////////////////////////////////////////////////////////////////////
+
+#include &lt;iterator&gt;
+#include &lt;string&gt;
+
+// Functor interface, to support substitutability
+
+template &lt;typename C&gt;
+struct IFunctor
+{
+  virtual void operator()(typename C::iterator&amp; iter)=0;
+};
+
+// Global function that accepts iterators and base functor reference,
+// templatized on a container argument.
+
+template &lt;typename C&gt;
+void Traverse(typename C::iterator&amp; Begin, typename C::iterator&amp; End, IFunctor&lt;C&gt;&amp; funct)
+{
+  C::iterator iter;
+  for(iter=Begin; iter!=End; ++iter)
+    funct(iter);
+}
+
+// Global function that accepts iterators and function pointer to member
+// templatized on a container argument
+
+template &lt;class C, template &lt;class C&gt; class X&gt;
+void Traverse(
+  typename C::iterator&amp; Begin, 
+  typename C::iterator&amp; End, 
+  X&lt;C&gt;&amp; x, 
+  void(X&lt;C&gt;::*fptr)(typename C::iterator&amp;)
+)
+{
+  C::iterator iter;
+  for(iter=Begin; iter!=End; ++iter)
+  {
+    (x.*fptr)(iter);
+  }
+}
+
+//----&lt; Demonstrate &gt;----------------------------------------------------
+
+#include &lt;string&gt;
+#include &lt;iostream&gt;
+
+// one of many possible operations to apply to some container
+
+class aFunctor : public IFunctor&lt;std::string&gt;
+{
+  void operator()(std::string::iterator&amp; iter)
+  {
+    std::cout &lt;&lt; *iter &lt;&lt; " ";
+  }
+};
+
+// template class that has a member function we will point to
+
+template &lt;typename C&gt;
+class X
+{
+public:
+  void doOp(typename C::iterator&amp; iter)
+  {
+    std::cout &lt;&lt; *iter &lt;&lt; " ";
+  }
+};
+
+// alias for this convoluted template function pointer to member syntax
+
+typedef void (X&lt;std::string&gt;::*fptr)(std::string::iterator&amp;);
+
+void main()
+{
+  std::string test = "CSE687 - Object Oriented Design";
+  
+  // testing functor
+  aFunctor func;
+  std::cout &lt;&lt; "\n  ";
+  Traverse(test.begin(), test.end(), func);
+  
+  // testing function pointer to member
+
+  std::cout &lt;&lt; "\n  ";
+  X&lt;std::string&gt; x;
+  fptr f = &amp;X&lt;std::string&gt;::doOp;
+  Traverse&lt;std::string&gt;(test.begin(), test.end(), x, f); 
+
+  // this syntax works too
+  
+  std::cout &lt;&lt; "\n  ";
+  Traverse&lt;std::string&gt;(test.begin(), test.end(), x, &amp;X&lt;std::string&gt;::doOp); 
+
+  std::cout &lt;&lt; "\n\n";
+}</pre>
