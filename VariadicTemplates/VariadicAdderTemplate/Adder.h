@@ -6,6 +6,8 @@
 // Adapted: Jim Fawcett, CSE687 - Object Oriented Design, Spring 2018    //
 ///////////////////////////////////////////////////////////////////////////
 
+#include <iostream>
+
 // Template specialization stops recursive evaluation
 
 template <typename T>
